@@ -35,5 +35,17 @@ namespace SimpleChat
                 (DataContext as MainWindowViewModel).Terminate();
             }
         }
+
+        private void Message_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && !(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)))
+            {
+                if (DataContext is MainWindowViewModel)
+                {
+                    (DataContext as MainWindowViewModel).SendMessage.Execute(null);
+                    e.Handled = true;
+                }
+            }
+        }
     }
 }
