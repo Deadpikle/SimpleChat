@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleChat"
         mc:Ignorable="d"
-        Title="SimpleChat Client" SizeToContent="WidthAndHeight" Closing="Window_Closing"
-        MinWidth="640" MinHeight="480">
+        Title="SimpleChat Client" Closing="Window_Closing"
+        MinWidth="640" MinHeight="480" Width="640" Height="480">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
