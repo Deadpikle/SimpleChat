@@ -14,3 +14,7 @@ Program where people can send messages securely to each other.
 #### Showcase video
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=wf971BeQ5LA&t=2s" target="_blank"><img src="https://i.imgur.com/U75woPe.png" 
 alt="Simple Email Automation" width="787" height="466" border="10" /></a>
+
+#### Credits
+
+The icon for this software is from [Icons8](https://icons8.com)
