@@ -23,11 +23,15 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ScrollViewer x:Name="MessagesScrollViewer" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
+            <ScrollViewer x:Name="MessagesScrollViewer" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
                 <TextBox x:Name="MessagesArea" TextWrapping="Wrap" AcceptsReturn="true"  Text="{Binding ChatText}" IsReadOnly="True"></TextBox>
             </ScrollViewer>
-            <Grid Grid.Row="1">
+            <Button Command="{Binding ClearChatHistory}" Grid.Row="1" Margin="0,5,0,5" Content="Clear Chat History" 
+                    Height="40" HorizontalAlignment="Left" Padding="5"
+                    IsEnabled="{Binding IsConnected}"/>
+            <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>

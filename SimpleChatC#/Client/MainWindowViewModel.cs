@@ -250,7 +250,11 @@ namespace SimpleChat
 
         private void ClientNewMessage(string message, string sender)
         {
-            ChatText += "\n[" + sender + "]: " + message;
+            if (!string.IsNullOrWhiteSpace(ChatText))
+            {
+                ChatText += "\n";
+            }
+            ChatText += "[" + sender + "]: " + message;
         }
 
         public ICommand SendMessage
@@ -282,6 +286,16 @@ namespace SimpleChat
         private void SendChangedUsername()
         {
             _client?.Send(MessageProtocols.SetUsername, true, Username);
+        }
+
+        public ICommand ClearChatHistory
+        {
+            get { return new RelayCommand(EraseChatHistory); }
+        }
+
+        private void EraseChatHistory()
+        {
+            ChatText = "";
         }
     }
 }
