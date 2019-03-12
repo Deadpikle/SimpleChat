@@ -5,45 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleChat"
         mc:Ignorable="d"
-        Title="SimpleChat Client" SizeToContent="WidthAndHeight" Closing="Window_Closing" ResizeMode="NoResize">
+        Title="SimpleChat Client" SizeToContent="WidthAndHeight" Closing="Window_Closing"
+        MinWidth="640" MinHeight="480">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
     <Grid Width="Auto">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Column="0" Margin="10" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ScrollViewer x:Name="MessagesScrollViewer" VerticalScrollBarVisibility="Auto" Width="375" Height="300" Margin="0,0,0,10">
+            <ScrollViewer x:Name="MessagesScrollViewer" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
                 <TextBox x:Name="MessagesArea" TextWrapping="Wrap" AcceptsReturn="true"  Text="{Binding ChatText}"></TextBox>
             </ScrollViewer>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBox x:Name="Message" Grid.Row="0" Grid.RowSpan="2" Width="300" Height="90" TextWrapping="Wrap" Grid.Column="0" AcceptsReturn="True"
+                <TextBox x:Name="Message" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" TextWrapping="Wrap" AcceptsReturn="True"
                          Text="{Binding MessageToSend, UpdateSourceTrigger=PropertyChanged}" PreviewKeyDown="Message_KeyDown"/>
-                <Button Command="{Binding SendMessage}" Grid.Row="0" Grid.Column="1" Margin="10,0,0,5" Content="Send"></Button>
-                <Button Command="{Binding ClearMessage}" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Content="Clear"></Button>
+                <Button Command="{Binding SendMessage}" Grid.Row="0" Grid.Column="1" Margin="10,0,0,5" Content="Send" Width="75" Height="40"></Button>
+                <Button Command="{Binding ClearMessage}" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Content="Clear" Width="75" Height="40"></Button>
             </Grid>
         </Grid>
 
         <Grid Grid.Column="1" Margin="0,10,10,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -67,7 +71,7 @@
             <Button Content="Set Username" 
                     Grid.Row="4" Height="50" Margin="0,0,0,10"
                     Command="{Binding SetUsername}"></Button>
-            <ScrollViewer Width="150" VerticalScrollBarVisibility="Auto" Grid.Row="5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="5">
                 <ListBox x:Name="Users" ItemsSource="{Binding Users}"/>
             </ScrollViewer>
         </Grid>
