@@ -169,7 +169,11 @@ namespace SimpleChat
 
         private void ClientUsernameTaken()
         {
-            // TODO:
+            if (!string.IsNullOrWhiteSpace(ChatText))
+            {
+                ChatText += "\n";
+            }
+            ChatText += string.Format("[The username {0} is already taken. Please choose a different username.]", Username);
         }
 
         private void ClientSetUsername(string username)
