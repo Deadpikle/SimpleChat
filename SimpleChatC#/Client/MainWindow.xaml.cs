@@ -1,5 +1,6 @@
 ﻿using Client;
 using Shared;
+using SharedCode;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +26,32 @@ namespace SimpleChat
         public MainWindow()
         {
             InitializeComponent();
+            if (DataContext is ChangeNotifier)
+            {
+                ((ChangeNotifier)DataContext).PropertyChanged += MainWindow_PropertyChanged;
+            }
         }
-        
+
+        private void MainWindow_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ChatText")
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    // if scroll viewer at bottom, keep auto scrolling. otherwise, stay at the top.
+                    if (MessagesScrollViewer.VerticalOffset == MessagesScrollViewer.ScrollableHeight)
+                    {
+                        MessagesScrollViewer.ScrollToBottom();
+                    }
+                });
+            }
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (DataContext is MainWindowViewModel)
             {
+                ((MainWindowViewModel)DataContext).PropertyChanged -= MainWindow_PropertyChanged;
                 (DataContext as MainWindowViewModel).Terminate();
             }
         }
