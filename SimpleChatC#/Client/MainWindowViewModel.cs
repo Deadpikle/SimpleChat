@@ -176,9 +176,9 @@ namespace SimpleChat
             }
         }
 
-        private void ClientUsernameTaken()
+        private void ClientUsernameTaken(string takenUsername)
         {
-            AddToChatText(string.Format("[The username {0} is already taken. Please choose a different username.]", Username));
+            AddToChatText(string.Format("[The username {0} is already taken. Please choose a different username.]", takenUsername));
         }
 
         private void ClientSetUsername(string username)

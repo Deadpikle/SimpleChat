@@ -55,7 +55,7 @@ namespace Shared
                         var usernameToUse = message.Arguments[0];
                         if (server.IsUsernameTaken(usernameToUse))
                         {
-                            Send(MessageProtocols.UsernameTaken);
+                            Send(MessageProtocols.UsernameTaken, true, usernameToUse);
                         }
                         else
                         {

@@ -94,7 +94,7 @@ namespace Client
                     break;
 
                 case MessageProtocols.UsernameTaken:
-                    UsernameTaken?.Invoke();
+                    UsernameTaken?.Invoke(message.Arguments[0]);
                     break;
 
                 case MessageProtocols.UsernameChanged:
@@ -130,7 +130,7 @@ namespace Client
         public delegate void OnSetUsername(string username);
         public event OnSetUsername SetUsername;
 
-        public delegate void OnUsernameTaken();
+        public delegate void OnUsernameTaken(string takenUsername);
         public event OnUsernameTaken UsernameTaken;
 
         public delegate void OnUsernameChanged(string oldUsername, string changedUsername);
