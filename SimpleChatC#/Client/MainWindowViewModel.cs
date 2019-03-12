@@ -158,22 +158,27 @@ namespace SimpleChat
             }
         }
 
-        private void ClientUserKicked(string username)
-        {
-            if (username == Username)
-            {
-                Terminate();
-                ChatText += "\n[You were kicked from the server]";
-            }
-        }
-
-        private void ClientUsernameTaken()
+        private void AddToChatText(string text)
         {
             if (!string.IsNullOrWhiteSpace(ChatText))
             {
                 ChatText += "\n";
             }
-            ChatText += string.Format("[The username {0} is already taken. Please choose a different username.]", Username);
+            ChatText += text;
+        }
+
+        private void ClientUserKicked(string username)
+        {
+            if (username == Username)
+            {
+                Terminate();
+                AddToChatText("[You were kicked from the server]");
+            }
+        }
+
+        private void ClientUsernameTaken()
+        {
+            AddToChatText(string.Format("[The username {0} is already taken. Please choose a different username.]", Username));
         }
 
         private void ClientSetUsername(string username)
@@ -188,7 +193,7 @@ namespace SimpleChat
                 Users.Remove(oldUsername);
                 Users.Add(changedUsername);
             });
-            ChatText += "\n[" + oldUsername + " changed their username to " + changedUsername + "]";
+            AddToChatText("[" + oldUsername + " changed their username to " + changedUsername + "]");
             SortUserList();
         }
 
@@ -206,11 +211,7 @@ namespace SimpleChat
             ToggleConnectionButtonText = "Disconnect";
             CanChangeServerIP = false;
             CanChangeServerPort = false;
-            if (!string.IsNullOrWhiteSpace(ChatText))
-            {
-                ChatText += "\n";
-            }
-            ChatText += "[Connected to server]";
+            AddToChatText("[Connected to server]");
         }
 
         private void ClientDisconnectedToServer()
@@ -223,18 +224,18 @@ namespace SimpleChat
             ToggleConnectionButtonText = "Connect";
             CanChangeServerIP = true;
             CanChangeServerPort = true;
-            ChatText += "\n[Disconnected from server]";
+            AddToChatText("[Disconnected from server]");
             Username = "";
         }
 
         private void ClientUserConnected(string user)
         {
-            ChatText += "\n" + user + " has connected";
+            AddToChatText("[" + user + " has connected]");
         }
 
         private void ClientUserDisconnected(string user)
         {
-            ChatText += "\n" + user + " has disconnected";
+            AddToChatText("[" + user + " has disconnected]");
             RunOnUIThread(() =>
             {
                 Users.Remove(user);
@@ -254,11 +255,7 @@ namespace SimpleChat
 
         private void ClientNewMessage(string message, string sender)
         {
-            if (!string.IsNullOrWhiteSpace(ChatText))
-            {
-                ChatText += "\n";
-            }
-            ChatText += "[" + sender + "]: " + message;
+            AddToChatText("[" + sender + "]: " + message);
         }
 
         public ICommand SendMessage
