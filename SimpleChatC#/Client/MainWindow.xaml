@@ -39,8 +39,10 @@
 
                 <TextBox x:Name="Message" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" TextWrapping="Wrap" AcceptsReturn="True"
                          Text="{Binding MessageToSend, UpdateSourceTrigger=PropertyChanged}" PreviewKeyDown="Message_KeyDown"/>
-                <Button Command="{Binding SendMessage}" Grid.Row="0" Grid.Column="1" Margin="10,0,0,5" Content="Send" Width="75" Height="40"></Button>
-                <Button Command="{Binding ClearMessage}" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Content="Clear" Width="75" Height="40"></Button>
+                <Button Command="{Binding SendMessage}" Grid.Row="0" Grid.Column="1" Margin="10,0,0,5" Content="Send" Width="75" Height="40" 
+                        IsEnabled="{Binding IsConnected}"/>
+                <Button Command="{Binding ClearMessage}" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Content="Clear" Width="75" Height="40" 
+                        IsEnabled="{Binding IsConnected}"/>
             </Grid>
         </Grid>
 
@@ -70,7 +72,8 @@
                      Grid.Row="3" Margin="0,0,0,10" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
             <Button Content="Set Username" 
                     Grid.Row="4" Height="50" Margin="0,0,0,10"
-                    Command="{Binding SetUsername}"></Button>
+                    Command="{Binding SetUsername}"
+                    IsEnabled="{Binding IsConnected}"/>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="5">
                 <ListBox x:Name="Users" ItemsSource="{Binding Users}"/>
             </ScrollViewer>

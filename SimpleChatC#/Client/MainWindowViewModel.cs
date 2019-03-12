@@ -220,6 +220,7 @@ namespace SimpleChat
             CanChangeServerIP = true;
             CanChangeServerPort = true;
             ChatText += "\n[Disconnected from server]";
+            Username = "";
         }
 
         private void ClientUserConnected(string user)
