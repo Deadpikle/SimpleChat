@@ -26,7 +26,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <ScrollViewer x:Name="MessagesScrollViewer" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
-                <TextBox x:Name="MessagesArea" TextWrapping="Wrap" AcceptsReturn="true"  Text="{Binding ChatText}" IsReadOnly="True"></TextBox>
+                <TextBox x:Name="MessagesArea" TextWrapping="Wrap" AcceptsReturn="true" Text="{Binding ChatText}" IsReadOnly="True">
+                </TextBox>
             </ScrollViewer>
             <Button Command="{Binding ClearChatHistory}" Grid.Row="1" Margin="0,5,0,5" Content="Clear Chat History" 
                     Height="40" HorizontalAlignment="Left" Padding="5"
@@ -43,7 +44,8 @@
 
                 <TextBox x:Name="Message" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" TextWrapping="Wrap" AcceptsReturn="True"
                          Text="{Binding MessageToSend, UpdateSourceTrigger=PropertyChanged}" PreviewKeyDown="Message_KeyDown" 
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         IsEnabled="{Binding IsConnected}"/>
                 <Button Command="{Binding SendMessage}" Grid.Row="0" Grid.Column="1" Margin="10,0,0,5" Content="Send" Width="75"
                         IsEnabled="{Binding IsConnected}"/>
                 <Button Command="{Binding ClearMessage}" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Content="Clear" Width="75"
