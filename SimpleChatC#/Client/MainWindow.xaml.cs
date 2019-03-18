@@ -39,7 +39,7 @@ namespace SimpleChat
                 Dispatcher.Invoke(() =>
                 {
                     // if scroll viewer at bottom, keep auto scrolling. otherwise, stay at the top.
-                    if (MessagesScrollViewer.VerticalOffset == MessagesScrollViewer.ScrollableHeight)
+                    if (ShouldAutoScroll.IsChecked.Value || Math.Abs(MessagesScrollViewer.VerticalOffset - MessagesScrollViewer.ScrollableHeight) < 0.1)
                     {
                         MessagesScrollViewer.ScrollToBottom();
                     }

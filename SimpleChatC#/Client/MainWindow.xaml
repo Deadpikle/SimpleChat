@@ -29,9 +29,12 @@
                 <TextBox x:Name="MessagesArea" TextWrapping="Wrap" AcceptsReturn="true" Text="{Binding ChatText}" IsReadOnly="True">
                 </TextBox>
             </ScrollViewer>
-            <Button Command="{Binding ClearChatHistory}" Grid.Row="1" Margin="0,5,0,5" Content="Clear Chat History" 
+            <StackPanel Grid.Row="1" Margin="0,5,0,5" Orientation="Horizontal">
+                <Button Command="{Binding ClearChatHistory}" Content="Clear Chat History" 
                     Height="40" HorizontalAlignment="Left" Padding="5"
                     IsEnabled="{Binding IsConnected}"/>
+                <CheckBox x:Name="ShouldAutoScroll" Content="Automatically Scroll to Bottom" VerticalAlignment="Center" Margin="15,0,0,0" IsChecked="True"/>
+            </StackPanel>
             <Grid Grid.Row="2" Height="90">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
