@@ -24,6 +24,7 @@ namespace SimpleChat
         private ObservableCollection<string> _users;
         private string _username;
         private string _lastServerUsername;
+        private int _selectedUsernameIndex;
 
         private string _toggleConnectionButtonText;
 
@@ -51,6 +52,7 @@ namespace SimpleChat
             Users = new ObservableCollection<string>();
             _isAttemptingConnection = false;
             _hasSetUsernameFromServer = false;
+            SelectedUsernameIndex = -1;
 
             ServerIP = Properties.Settings.Default.LastUsedIP.ToString();
             ServerPort = Properties.Settings.Default.LastUsedPort.ToString();
@@ -120,6 +122,12 @@ namespace SimpleChat
         {
             get { return _messageToSend; }
             set { _messageToSend = value; NotifyPropertyChanged(); }
+        }
+
+        public int SelectedUsernameIndex
+        {
+            get { return _selectedUsernameIndex; }
+            set { _selectedUsernameIndex = value; NotifyPropertyChanged(); }
         }
 
         public ICommand ToggleConnection
@@ -212,6 +220,7 @@ namespace SimpleChat
             RunOnUIThread(() =>
             {
                 Users = new ObservableCollection<string>(Users.OrderBy(i => i));
+                UpdateSelectedUsernameIndex();
             });
         }
 
@@ -234,6 +243,12 @@ namespace SimpleChat
             }
             _isAttemptingConnection = false;
             _hasSetUsernameFromServer = true;
+            UpdateSelectedUsernameIndex();
+        }
+
+        private void UpdateSelectedUsernameIndex()
+        {
+            SelectedUsernameIndex = Users.IndexOf(Username);
         }
 
         private void ClientDisconnectedToServer()
@@ -241,6 +256,7 @@ namespace SimpleChat
             RunOnUIThread(() =>
             {
                 Users.Clear();
+                _selectedUsernameIndex = -1;
             });
             IsConnected = false;
             ToggleConnectionButtonText = "Connect";
@@ -261,6 +277,7 @@ namespace SimpleChat
             RunOnUIThread(() =>
             {
                 Users.Remove(user);
+                UpdateSelectedUsernameIndex();
             });
         }
 
@@ -272,6 +289,7 @@ namespace SimpleChat
                 {
                     Users.Add(user);
                 }
+                UpdateSelectedUsernameIndex();
             });
         }
 

@@ -86,7 +86,14 @@
                     Command="{Binding SetUsername}"
                     IsEnabled="{Binding IsConnected}"/>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="5">
-                <ListBox x:Name="Users" ItemsSource="{Binding Users}"/>
+                <ListBox x:Name="Users" ItemsSource="{Binding Users}" SelectedIndex="{Binding SelectedUsernameIndex}"
+                         SelectionMode="Single">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Focusable" Value="False"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
             </ScrollViewer>
         </Grid>
     </Grid>
