@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedCode;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,10 @@ namespace Server
         public MainWindow()
         {
             InitializeComponent();
+            if (DataContext is ChangeNotifier)
+            {
+                ((ChangeNotifier)DataContext).PropertyChanged += MainWindow_PropertyChanged;
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -30,6 +35,21 @@ namespace Server
             if (DataContext is MainWindowViewModel)
             {
                 (DataContext as MainWindowViewModel).Terminate();
+            }
+        }
+
+        private void MainWindow_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ChatText")
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    // if scroll viewer at bottom, keep auto scrolling. otherwise, stay at the top.
+                    if (ShouldAutoScroll.IsChecked.Value || Math.Abs(MessagesScrollViewer.VerticalOffset - MessagesScrollViewer.ScrollableHeight) < 0.1)
+                    {
+                        MessagesScrollViewer.ScrollToBottom();
+                    }
+                });
             }
         }
     }

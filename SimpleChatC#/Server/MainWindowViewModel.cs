@@ -20,6 +20,7 @@ namespace Server
         private bool _isServerPortFieldEnabled;
         private ObservableCollection<string> _users;
 
+        private string _chatText;
         private int _selectedUserIndex;
         private bool _isUserSelected;
 
@@ -82,6 +83,12 @@ namespace Server
             set { _isUserSelected = value; NotifyPropertyChanged(); }
         }
 
+        public string ChatText
+        {
+            get { return _chatText; }
+            set { _chatText = value; NotifyPropertyChanged(); }
+        }
+
         public ICommand ToggleServer
         {
             get { return new RelayCommand(ToggleServerOffOn); }
@@ -107,10 +114,25 @@ namespace Server
                     _server.ServerStarted += ServerStarted;
                     _server.ServerClosed += ServerClosed;
                     _server.UsernameChanged += ServerUsernameChanged;
+                    _server.NewMessage += ServerNewMessage;
 
                     _isServerStarted = true;
                 }
             }
+        }
+
+        private void AddToChatText(string text)
+        {
+            if (!string.IsNullOrWhiteSpace(ChatText))
+            {
+                ChatText += "\n";
+            }
+            ChatText += text;
+        }
+
+        private void ServerNewMessage(string message, string sender)
+        {
+            AddToChatText("[" + sender + "]: " + message);
         }
 
         private void RunOnUIThread(Action action)
@@ -176,6 +198,16 @@ namespace Server
         {
             _server.Broadcast(MessageProtocols.KickUser, _users[SelectedUserIndex]);
             _server.Broadcast(MessageProtocols.Disconnect, _users[SelectedUserIndex]);
+        }
+
+        public ICommand ClearChatHistory
+        {
+            get { return new RelayCommand(EraseChatHistory); }
+        }
+
+        private void EraseChatHistory()
+        {
+            ChatText = "";
         }
     }
 }
