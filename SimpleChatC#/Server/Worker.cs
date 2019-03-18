@@ -53,16 +53,19 @@ namespace Shared
                     {
                         
                         var usernameToUse = message.Arguments[0];
-                        if (server.IsUsernameTaken(usernameToUse))
+                        if (!string.IsNullOrWhiteSpace(usernameToUse))
                         {
-                            Send(MessageProtocols.UsernameTaken, true, usernameToUse);
-                        }
-                        else
-                        {
-                            var oldUsername = Username;
-                            Username = usernameToUse;
-                            server.UsernameWasChanged(oldUsername, Username);
-                            server.Broadcast(MessageProtocols.UsernameChanged, oldUsername, Username);
+                            if (server.IsUsernameTaken(usernameToUse))
+                            {
+                                Send(MessageProtocols.UsernameTaken, true, usernameToUse);
+                            }
+                            else
+                            {
+                                var oldUsername = Username;
+                                Username = usernameToUse;
+                                server.UsernameWasChanged(oldUsername, Username);
+                                server.Broadcast(MessageProtocols.UsernameChanged, oldUsername, Username);
+                            }
                         }
                     }
                     break;

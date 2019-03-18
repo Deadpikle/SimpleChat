@@ -17,10 +17,13 @@ namespace SimpleChat
     {
         private SimpleClient _client;
 
+        private bool _isAttemptingConnection;
+        private bool _hasSetUsernameFromServer;
         private bool _isConnected;
         private string _chatText;
         private ObservableCollection<string> _users;
         private string _username;
+        private string _lastServerUsername;
 
         private string _toggleConnectionButtonText;
 
@@ -46,6 +49,8 @@ namespace SimpleChat
             CanChangeServerPort = true;
             ChatText = "";
             Users = new ObservableCollection<string>();
+            _isAttemptingConnection = false;
+            _hasSetUsernameFromServer = false;
 
             ServerIP = Properties.Settings.Default.LastUsedIP.ToString();
             ServerPort = Properties.Settings.Default.LastUsedPort.ToString();
@@ -140,6 +145,7 @@ namespace SimpleChat
                     Properties.Settings.Default.LastUsedIP = ServerIP;
                     Properties.Settings.Default.LastUsedPort = port;
                     Properties.Settings.Default.Save();
+                    _isAttemptingConnection = true;
                     _client = new SimpleClient(ServerIP, port);
                     _client.NewMessage += ClientNewMessage;
                     _client.UserConnected += ClientUserConnected;
@@ -183,7 +189,11 @@ namespace SimpleChat
 
         private void ClientSetUsername(string username)
         {
-            Username = username;
+            _lastServerUsername = username;
+            if (string.IsNullOrWhiteSpace(Username) && _isAttemptingConnection)
+            {
+                Username = username;
+            }
         }
 
         private void ClientUsernameChanged(string oldUsername, string changedUsername)
@@ -212,6 +222,18 @@ namespace SimpleChat
             CanChangeServerIP = false;
             CanChangeServerPort = false;
             AddToChatText("[Connected to server]");
+            if (!string.IsNullOrWhiteSpace(Username) && _isAttemptingConnection && _hasSetUsernameFromServer) // TODO
+            {
+                SendChangedUsername();
+            }
+            else if (string.IsNullOrWhiteSpace(Username) && _isAttemptingConnection && _hasSetUsernameFromServer)
+            {
+                // if cleared the username field, then disconnected, field will be empty, so can't resend it
+                Username = _lastServerUsername;
+                SendChangedUsername();
+            }
+            _isAttemptingConnection = false;
+            _hasSetUsernameFromServer = true;
         }
 
         private void ClientDisconnectedToServer()
@@ -225,7 +247,7 @@ namespace SimpleChat
             CanChangeServerIP = true;
             CanChangeServerPort = true;
             AddToChatText("[Disconnected from server]");
-            Username = "";
+            _isAttemptingConnection = false;
         }
 
         private void ClientUserConnected(string user)
@@ -289,7 +311,10 @@ namespace SimpleChat
 
         private void SendChangedUsername()
         {
-            _client?.Send(MessageProtocols.SetUsername, true, Username);
+            if (!string.IsNullOrWhiteSpace(Username))
+            {
+                _client?.Send(MessageProtocols.SetUsername, true, Username);
+            }
         }
 
         public ICommand ClearChatHistory
