@@ -265,8 +265,11 @@ namespace SimpleChat
 
         private void SendMessageToServer()
         {
-            _client?.SendMessage(MessageToSend);
-            ClearMessageCurrentlyBeingTyped();
+            if (!string.IsNullOrWhiteSpace(MessageToSend))
+            {
+                _client?.SendMessage(MessageToSend);
+                ClearMessageCurrentlyBeingTyped();
+            }
         }
 
         public ICommand ClearMessage

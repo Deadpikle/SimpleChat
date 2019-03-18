@@ -97,11 +97,14 @@ namespace Server
         /// <param name="message">The message to sent to the users</param>
         public void SendMessage(string message, string sender)
         {
-            lock (workersLock)
+            if (!string.IsNullOrWhiteSpace(message))
             {
-                foreach (Worker w in workers)
-                    w.Send(MessageProtocols.Message, true, message, sender);
-                NewMessage?.Invoke(message,sender);
+                lock (workersLock)
+                {
+                    foreach (Worker w in workers)
+                        w.Send(MessageProtocols.Message, true, message, sender);
+                    NewMessage?.Invoke(message, sender);
+                }
             }
         }
 
