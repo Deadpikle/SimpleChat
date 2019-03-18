@@ -91,8 +91,9 @@ namespace Server
         {
             if (_isServerStarted)
             {
-                _server.Terminate();
+                _server?.Terminate();
                 _server = null;
+                _isServerStarted = false;
             }
             else
             {
@@ -131,6 +132,8 @@ namespace Server
         {
             ToggleServerButtonTitle = "Start Server";
             IsServerPortFieldEnabled = true;
+            _isServerStarted = false;
+            _server = null;
         }
 
         private void ServerStarted()
