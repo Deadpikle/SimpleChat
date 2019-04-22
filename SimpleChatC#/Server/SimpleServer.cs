@@ -82,7 +82,7 @@ namespace Server
 
         public bool IsUsernameTaken(string username)
         {
-            var workerWithUsername = workers.Where(x => x.Username == username).FirstOrDefault();
+            var workerWithUsername = workers.Where(x => x.Username.ToLower() == username.ToLower()).FirstOrDefault();
             return workerWithUsername != null;
         }
 
