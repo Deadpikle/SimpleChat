@@ -269,6 +269,11 @@ namespace SimpleChat
         private void ClientUserConnected(string user)
         {
             AddToChatText("[" + user + " has connected]");
+            RunOnUIThread(() =>
+            {
+                Users.Add(user);
+                SortUserList();
+            });
         }
 
         private void ClientUserDisconnected(string user)
