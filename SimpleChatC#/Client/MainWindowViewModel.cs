@@ -219,7 +219,7 @@ namespace SimpleChat
         {
             RunOnUIThread(() =>
             {
-                Users = new ObservableCollection<string>(Users.OrderBy(i => i));
+                Users = new ObservableCollection<string>(Users.OrderBy(i => i.ToLower()));
                 UpdateSelectedUsernameIndex();
             });
         }
