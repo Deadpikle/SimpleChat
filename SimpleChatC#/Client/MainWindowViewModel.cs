@@ -188,6 +188,10 @@ namespace SimpleChat
                 Terminate();
                 AddToChatText("[You were kicked from the server]");
             }
+            else
+            {
+                AddToChatText("[" + username + " was kicked from the server]");
+            }
         }
 
         private void ClientUsernameTaken(string takenUsername)

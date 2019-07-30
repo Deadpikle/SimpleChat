@@ -197,7 +197,6 @@ namespace Server
         private void KickSelectedUser()
         {
             _server.Broadcast(MessageProtocols.KickUser, _users[SelectedUserIndex]);
-            _server.Broadcast(MessageProtocols.Disconnect, _users[SelectedUserIndex]);
         }
 
         public ICommand ClearChatHistory
