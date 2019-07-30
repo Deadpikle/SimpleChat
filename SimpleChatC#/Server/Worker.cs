@@ -51,7 +51,6 @@ namespace Shared
                 case MessageProtocols.SetUsername:
                     if (message.Arguments.Count == 1)
                     {
-                        
                         var usernameToUse = message.Arguments[0];
                         if (!string.IsNullOrWhiteSpace(usernameToUse))
                         {
