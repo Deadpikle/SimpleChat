@@ -127,12 +127,12 @@ namespace Server
             {
                 ChatText += "\n";
             }
-            ChatText += text;
+            ChatText += string.Format("[{0}] {1}", DateTime.Now.ToString(), text);
         }
 
         private void ServerNewMessage(string message, string sender)
         {
-            AddToChatText("[" + sender + "]: " + message);
+            AddToChatText(string.Format("[{0}]: {1}", sender, message));
         }
 
         private void RunOnUIThread(Action action)
@@ -146,12 +146,14 @@ namespace Server
             {
                 Users.Remove(oldUsername);
                 Users.Add(changedUsername);
+                AddToChatText(string.Format("[{0} changed their username to {1}]", oldUsername, changedUsername));
                 SortUserList();
             });
         }
 
         private void ServerClosed()
         {
+            AddToChatText("[Server closed]");
             ToggleServerButtonTitle = "Start Server";
             IsServerPortFieldEnabled = true;
             _isServerStarted = false;
@@ -160,12 +162,14 @@ namespace Server
 
         private void ServerStarted()
         {
+            AddToChatText("[Server started]");
             ToggleServerButtonTitle = "Close Server Connections";
             IsServerPortFieldEnabled = false;
         }
 
         private void ClientUserDisconnected(string user)
         {
+            AddToChatText(string.Format("[{0} disconnected]", user));
             RunOnUIThread(() =>
             {
                 Users.Remove(user);
@@ -174,6 +178,7 @@ namespace Server
 
         private void ServerUserConnected(string user)
         {
+            AddToChatText(string.Format("[{0} connected]", user));
             RunOnUIThread(() =>
             {
                 Users.Add(user);
@@ -196,6 +201,7 @@ namespace Server
 
         private void KickSelectedUser()
         {
+            AddToChatText(string.Format("[{0} was kicked]", _users[SelectedUserIndex]));
             _server.Broadcast(MessageProtocols.KickUser, _users[SelectedUserIndex]);
         }
 
